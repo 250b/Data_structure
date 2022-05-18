@@ -1,0 +1,26 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+typedef struct
+{
+    int account;
+    char name[20];//문자열은 문자의 배열로
+    int balance;
+}Bank;
+
+void deposit(Bank* a, int amount)
+{
+    a->balance += amount;//구조체 포인터
+    printf("%s의 %d계좌의 잔액은 %d원\n", a->name, a->account, a->balance);
+}
+
+int main()
+{
+    Bank a;
+    scanf("%d %s %d", &a.account, a.name, &a.balance);//문자배열은 &없이
+    printf("%s의 %d계좌의 잔액은 %d원\n", a.name, a.account, a.balance);
+    
+    deposit(&a, 10000);
+    printf("%s의 %d계좌의 잔액은 %d원\n", a.name, a.account, a.balance);
+    return 0;
+}
