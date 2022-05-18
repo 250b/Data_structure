@@ -1,0 +1,60 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+
+#define N 2
+
+void makeMatrix(int A[N][N])
+{
+    for(int i =0; i<N; i++)
+        for(int j =0; j <N; j++)
+            A[i][j] = rand() % 10;
+}
+
+void transposeMatrix(int A[N][N])
+{
+    for(int i =0; i<N; i++)
+    {   
+        printf("|");
+        for(int j =0; j <N; j++)
+            printf("%2d", A[j][i]);
+        printf("\n");
+    }
+}
+
+void mulMatrix(int A[N][N], int B[N][N], int C[N][N] )
+{
+     for(int i =0; i<N; i++)
+        for(int j =0; j <N; j++)
+        {
+            C[i][j] = 0;
+            for(int k =0; k < N; k++)
+                C[i][j] = C[i][j] + A[i][k] + B[k][i];
+        }
+}
+
+void printMatrix(int A[N][N])
+{
+    for(int i =0; i<N; i++)
+    {   
+        printf("|");
+        for(int j =0; j <N; j++)
+            printf("%2d", A[i][j]);
+        printf("\n");
+    }
+}
+
+int main()
+{
+    int A[N][N], B[N][N], C[N][N];
+    srand(time(NULL));
+    
+    makeMatrix(A);
+    makeMatrix(B);
+    
+    printMatrix(A); printf("\n");
+    printMatrix(B); printf("\n");
+    transposeMatrix(B); printf("\n");
+
+    return 0;
+}
