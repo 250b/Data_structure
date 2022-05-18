@@ -1,0 +1,96 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+typedef struct ListNode
+{
+    int coef, expon;
+    struct ListNode* next;
+}ListNode;
+
+typedef struct
+{
+    ListNode* H;
+    ListNode* T;
+}ListType;
+
+void init(ListType* L)
+{
+    L->H = L->T = NULL;
+}
+
+
+void insertLast(ListType* L, int coef, int expon)
+{
+    ListNode* node = (ListNode*)malloc(sizeof(ListNode));
+    node->coef = coef;
+    node->expon = expon;
+    node->next =NULL;
+    
+    if(L->T == NULL)
+        L->H = L->T = node;
+    else
+    {
+        L->T->next = node;
+        L->T = node;
+    }
+}
+
+void print(ListType* L)
+{
+    ListNode* p;
+    for(p = L->H; p != NULL; p = p->next)
+        printf("%dX^%d + ",p->coef, p->expon);
+    printf("\b\b\b   \n");
+}
+
+void polyAdd(ListType* L, ListType* A, ListType* B)
+{
+    ListNode* p = A->H;
+    ListNode* q = B->H;
+    int sum;
+    
+    while(p!= NULL && q!= NULL)
+    {
+        if(p->expon == q->expon)
+        {
+            sum = q->coef + p ->expon;
+            if(sum !=0)
+                insertLast(L, sum, p->expon);
+            p = p->next;
+            q = q->next;
+        }
+        else if(p->expon > q->expon)
+        {
+            insertLast(L, p->coef, p->expon);
+            p = p->next;
+        }
+        else
+        {
+            insertLast(L, q->coef, q->expon);
+            q = q->next;
+        }
+    }
+    for(; p!= NULL; p = p->next)
+        insertLast(L, p->coef, p->expon);
+    for(; q!= NULL; q = q->next)
+        insertLast(L, q->coef, q->expon);
+}
+
+int main()
+{
+    ListType Poly, A, B;
+    init(&Poly); init(&A); init(&B);
+    
+    insertLast(&A, 3, 12);
+    insertLast(&A, 2, 12);
+    insertLast(&A, 1, 12);
+    
+    insertLast(&A, 8, 12);
+    insertLast(&A, -3, 12);
+    insertLast(&A, -3, 12);
+    insertLast(&A, 10, 12);
+    
+    print(&A); print(&B);
+    
+    return 0;
+}
