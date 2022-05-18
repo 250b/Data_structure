@@ -1,0 +1,23 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+int main()
+{
+    int N, oddSum = 0, evenSum = 0; //sum은 0ㅇ으로 초기화를 해줘야 정확함
+    scanf("%d", &N);
+    
+    for(int i =1; i <=N; i++)
+    {
+        if(i%2 != 0)
+        {
+            oddSum = oddSum+ N;
+        }
+        else
+        {
+            evenSum = evenSum + N;
+        }
+    }
+    printf("%d\n", oddSum);
+    printf("%d\n", evenSum);
+    return 0;
+}

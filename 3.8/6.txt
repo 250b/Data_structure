@@ -1,0 +1,28 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+void sumOfWeight (int g)
+{
+  int count = 0;
+  for (int i = 1; i < 11; i++)
+    for (int j = 1; j < 11; j++)
+      for (int k = 1; k < 11; k++)
+    	if (2 * i + j * 3 + k * 5 == g)
+	    {
+	        printf ("%d %d %d\n", i, j, k);
+	        count++;
+	    }
+  if(count == 0)
+    printf ("0\n");
+  else
+    printf ("%d\n", count);
+}
+
+int main ()
+{
+  int G;
+  scanf ("%d", &G);
+  sumOfWeight (G);
+
+  return 0;
+}
