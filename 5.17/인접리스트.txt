@@ -32,7 +32,7 @@ void insertEdge(GraphType* G, int u, int v)
 
 void print(GraphType* G)
 {
-    for(int i=0; i < N; i++)
+    for(int i=0; i < G->n; i++)
     {
         for(int j=0; j < N; j++)
             printf( "%d",G->adjMat[i][j]);
