@@ -1,0 +1,158 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+
+#define N 15
+#define N2 5
+
+typedef struct
+{
+    int key ;
+    int index;
+}IndexTable;
+
+int sequentialSearch(int A[], int key, int low, int high)
+{
+    for(int i =low; i < high; i++)
+        if(A[i] == key)
+            return i;
+    return -1;
+}
+void print2(IndexTable IT[])
+{
+    for(int i=0; i<N/N2; i++ )
+    {
+        printf("[%2d] : [%2d]\n", IT[i].key, IT[i].index );
+    }
+}
+
+void makeIndexTable(int A[], IndexTable IT[])
+{
+    for(int i=0, j =0; i < N/N2; i++, j+=N2)
+    {
+        IT[i].key = A[j];
+        IT[i].index = j;
+    }
+    print2(IT);
+}
+
+void print(int A[])
+{
+    for(int i=0; i<N; i++)
+        printf("%d ", A[i]);
+    printf("\n");
+}
+void insertionSort(int A[])
+{
+    for(int i=1 ; i<N; i++)
+    {
+        int key = A[i];
+        int j =i-1;
+        while(j >=0 && A[i] > key)
+        {
+            A[j+1] = A[j];
+            j--;
+        }
+        A[j+1] = key;
+    }
+    print(A);
+}
+
+int count;
+
+int rBinarySearch(int A[], int key, int low, int high)
+{
+    if(low <= high)
+    {
+        count++;
+        int middle = (low+high)/2;
+        
+        if(key == A[middle])
+            return middle;
+        else if(key<A[middle])
+            return rBinarySearch(A, key, low, middle-1);
+        else
+            return rBinarySearch(A, key, middle+1, high);
+    }
+    return -1;
+}
+
+int iBinarySearch(int A[], int key)
+{
+    int low =0, high = N-1, middle;
+    
+    while(low <= high)
+    {
+        count++;
+        middle = (low+high)/2;
+        
+        if(key == A[middle])
+            return middle;
+        else if(key<A[middle])
+            high = middle-1;
+        else
+            low = middle+1;
+    }
+    return -1;
+}
+
+int indexSearch(int A[], IndexTable IT[], int key)
+{
+    int i, low, high; 
+    for(int i=0; i <N/N2; i++)
+        if(IT[i].key <=key && IT[i+1].key > key)
+            break;
+    if(i == N/N2 -1)
+    {
+        low = IT[i].index;
+        high = N;
+    }
+    else
+    {
+        low = IT[i].index;
+        high = IT[i+1].index;
+    }
+    printf("%d %d\n", low, high);
+    return sequentialSearch(A, key, low, high);
+}
+
+int interpolationSearch(int A[], int key)
+{
+    int low =0, high = N-1; 
+    while(A[low] <= key && key <= A[high])
+    {
+        int i = ((float)(key - A[low]) / (A[high]-A[low]) * (high - low) + low);
+        printf("%d\n", i);
+        
+        if(key == A[i])
+            return i;
+        else if(key < A[i])
+            high = i -1;
+        else
+            low = i+1;
+    }
+    return -1;
+}
+
+int main()
+{
+    int A[N];
+    IndexTable IT[N/N2];
+    
+    srand(time(NULL));
+    for(int i=0; i < N; i++)
+        A[i] = rand()%100;
+    print(A); insertionSort(A); makeIndexTable(A, IT);
+    
+    
+    int key, idx;
+    printf("Search Key : ");
+    scanf("%d", &key);
+    idx = interpolationSearch(A, key);
+    if(idx == -1)
+        printf("%d is not in A[]\n", key);
+    else
+        printf("%d is in A[%d]\n", key, idx);
+    
+    return 0;
+}
